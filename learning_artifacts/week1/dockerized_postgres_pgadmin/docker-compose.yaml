@@ -1,0 +1,30 @@
+version: "2"
+services:
+  postgresql_service:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=ny_taxi
+    volumes:
+      - dtc_postgres_volume_local:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres-network
+  pgadmin_service:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    volumes:
+      - dtc_pgadmin_volume:/var/lib/pgadmin
+    ports:
+      - "5555:80"
+    networks:
+      - postgres-network
+volumes:
+  dtc_postgres_volume_local:
+  dtc_pgadmin_volume:
+networks:
+  postgres-network:
